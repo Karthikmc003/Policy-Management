@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Policy Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #1e56db;
+            --primary-blue-dark: #1645b8;
+            --primary-blue-light: #e8f0fe;
+            --success-green: #4caf50;
+            --warning-orange: #ff9800;
+            --danger-red: #f44336;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e0e0e0;
+            --gray-600: #616161;
+            --gray-700: #424242;
+            --gray-800: #323232;
+            --gray-900: #212121;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            color: var(--gray-800);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-dark));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(30, 86, 219, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-logo-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            color: var(--gray-600);
+            font-size: 1.1rem;
+        }
+
+        /* Module Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary-blue);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-blue-dark));
+        }
+
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .module-card h3 {
+            color: var(--gray-900);
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .module-card p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-card .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .module-card .btn:hover {
+            background: var(--primary-blue-dark);
+            transform: scale(1.05);
+        }
+
+        .module-card .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-blue-light);
+            color: var(--primary-blue);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Alert */
+        .alert {
+            background: var(--primary-blue-light);
+            border-left: 4px solid var(--primary-blue);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+        }
+
+        .alert-content strong {
+            color: var(--gray-900);
+        }
+
+        .alert-content p {
+            margin: 0.5rem 0 0 0;
+            color: var(--gray-700);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-600);
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="header-logo">
+                <div class="header-logo-icon">📋</div>
+                <div>
+                    <div>Enterprise Policy Management</div>
+                    <small style="opacity: 0.8; font-size: 0.75rem;">Unified Navigation Portal</small>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Alert -->
+        <div class="alert">
+            <div class="alert-icon">🎯</div>
+            <div class="alert-content">
+                <strong>Welcome to the Unified Policy Management System</strong>
+                <p>Navigate to any module below to access comprehensive policy management features. All pages are integrated for seamless workflow and governance.</p>
+            </div>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Policy Management System</h1>
+            <p>Access all policy management modules from one centralized location</p>
+        </div>
+
+        <!-- Modules Grid -->
+        <div class="modules-grid">
+            <!-- Module 1: Dashboard -->
+            <div class="module-card" onclick="window.location.href='policy-dashboard-main.html'">
+                <span class="module-icon">📊</span>
+                <h3>Dashboard</h3>
+                <p>Comprehensive overview of all policies, metrics, trends, and recent activities with interactive charts and KPIs.</p>
+                <span class="badge">Main Overview</span>
+                <a href="policy-dashboard-main.html" class="btn">Open Dashboard</a>
+            </div>
+
+            <!-- Module 2: Policy Repository -->
+            <div class="module-card" onclick="window.location.href='policy-repository.html'">
+                <span class="module-icon">📚</span>
+                <h3>Policy Repository</h3>
+                <p>Browse, search, filter, and manage all policies with advanced sorting, multiple views (table, grid, kanban), and bulk operations.</p>
+                <span class="badge">Core Module</span>
+                <a href="policy-repository.html" class="btn">View Repository</a>
+            </div>
+
+            <!-- Module 3: Policy Review -->
+            <div class="module-card" onclick="window.location.href='policy-review.html'">
+                <span class="module-icon">👁️</span>
+                <h3>Policy Review</h3>
+                <p>Review policy details, add comments, track approval workflow, and provide electronic signatures for approvals.</p>
+                <span class="badge">Workflow</span>
+                <a href="policy-review.html" class="btn">Review Policy</a>
+            </div>
+
+            <!-- Module 4: Edit/Update Policy -->
+            <div class="module-card" onclick="window.location.href='policy-edit.html'">
+                <span class="module-icon">✏️</span>
+                <h3>Edit / Update Policy</h3>
+                <p>Comprehensive policy editing with version tracking, change logs, workflow management, and detailed form tabs.</p>
+                <span class="badge">Core Module</span>
+                <a href="policy-edit.html" class="btn">Edit Policy</a>
+            </div>
+
+            <!-- Module 5: Settings & Configuration -->
+            <div class="module-card" onclick="window.location.href='policy-settings.html'">
+                <span class="module-icon">⚙️</span>
+                <h3>Settings & Configuration</h3>
+                <p>Configure system-wide settings, workflow templates, policy defaults, notifications, compliance rules, and user preferences.</p>
+                <span class="badge">Admin</span>
+                <a href="policy-settings.html" class="btn">Configure Settings</a>
+            </div>
+
+            <!-- Module 6: Acknowledgment Tracking -->
+            <div class="module-card" onclick="window.location.href='acknowledgment-tracking.html'">
+                <span class="module-icon">✓</span>
+                <h3>Acknowledgment Tracking</h3>
+                <p>Real-time compliance monitoring, employee tracking, department analytics, and comprehensive reporting with bulk operations.</p>
+                <span class="badge">Compliance</span>
+                <a href="acknowledgment-tracking.html" class="btn">Track Acknowledgments</a>
+            </div>
+
+            <!-- Module 7: Template Library -->
+            <div class="module-card" onclick="window.location.href='policy-template-library.html'">
+                <span class="module-icon">📖</span>
+                <h3>Policy Template Library</h3>
+                <p>Browse pre-built professional policy templates with search, category filtering, ratings, preview, and quick-use features.</p>
+                <span class="badge">Templates</span>
+                <a href="policy-template-library.html" class="btn">Browse Templates</a>
+            </div>
+
+            <!-- Module 8: Comparison Tool -->
+            <div class="module-card" onclick="window.location.href='policy-comparison-tool.html'">
+                <span class="module-icon">🔄</span>
+                <h3>Policy Comparison Tool</h3>
+                <p>Compare policy versions side-by-side with detailed diff view, change summary, review comments, and export options.</p>
+                <span class="badge">Analysis</span>
+                <a href="policy-comparison-tool.html" class="btn">Compare Policies</a>
+            </div>
+        </div>
+
+        <!-- Additional Info Section -->
+        <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); margin-bottom: 2rem;">
+            <h2 style="color: var(--gray-900); margin-bottom: 1rem; font-weight: 600;">System Information</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <div>
+                    <h4 style="color: var(--gray-700); margin-bottom: 0.5rem;">Total Modules</h4>
+                    <p style="font-size: 1.5rem; font-weight: 700; color: var(--primary-blue);">8</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--gray-700); margin-bottom: 0.5rem;">Active Policies</h4>
+                    <p style="font-size: 1.5rem; font-weight: 700; color: var(--success-green);">120</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--gray-700); margin-bottom: 0.5rem;">System Status</h4>
+                    <p style="font-size: 1.5rem; font-weight: 700; color: var(--success-green);">✓ Online</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--gray-700); margin-bottom: 0.5rem;">Last Updated</h4>
+                    <p style="font-size: 1.5rem; font-weight: 700; color: var(--gray-700);">Nov 13, 2025</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Navigation Links -->
+        <div style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: var(--gray-900); margin-bottom: 1rem; font-weight: 600;">Quick Navigation</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <a href="policy-dashboard-main.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">📊 Dashboard</a>
+                <a href="policy-repository.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">📚 Repository</a>
+                <a href="policy-review.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">👁️ Review</a>
+                <a href="policy-edit.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">✏️ Edit</a>
+                <a href="policy-settings.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">⚙️ Settings</a>
+                <a href="acknowledgment-tracking.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">✓ Tracking</a>
+                <a href="policy-template-library.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">📖 Templates</a>
+                <a href="policy-comparison-tool.html" style="padding: 1rem; background: var(--primary-blue-light); color: var(--primary-blue); text-decoration: none; border-radius: 6px; text-align: center; font-weight: 600; transition: all 0.3s ease;">🔄 Compare</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Enterprise Policy Management System. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Unified Navigation Portal | Version 1.0</p>
+    </footer>
+</body>
+</html>
